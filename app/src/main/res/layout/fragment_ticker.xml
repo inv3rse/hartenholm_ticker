@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/entry_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="2dp"
+        />
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/ticker_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_alignBottom="@+id/entry_list"
+        android:layout_alignRight="@+id/entry_list"
+        android:layout_alignEnd="@+id/entry_list"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_action_add"
+        fab:fab_colorNormal="@color/ColorAltPrimary"
+        fab:fab_colorPressed="@color/ColorPrimaryDark"
+        fab:fab_colorRipple="#000"/>
+
+</RelativeLayout>

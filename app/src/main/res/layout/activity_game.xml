@@ -1,0 +1,69 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.appspot.simple_ticker.hartenholmticker.ui.TickerEntryActivity"
+    >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/game_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/ColorPrimary"
+        android:elevation="2dp"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/game_enemy"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:ems="10"
+            android:layout_weight="1"
+            android:hint="@string/game_enemy"
+            android:inputType="text"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/game_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/game_date"
+                android:editable="false"
+                android:layout_weight="1"
+                android:inputType="datetime"
+                android:focusable="false"/>
+
+            <EditText
+                android:id="@+id/game_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/game_time_placeholder"
+                android:editable="false"
+                android:layout_weight="1"
+                android:inputType="time"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/game_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ticker_entry_commit"
+            android:layout_gravity="end"/>
+
+    </LinearLayout>
+
+</LinearLayout>  

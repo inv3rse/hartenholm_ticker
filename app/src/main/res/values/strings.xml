@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Hartenholm Ticker</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="minute_descr">Minute:</string>
+    <string name="title_activity_create_ticker_entry">CreateTickerEntryActivity</string>
+    <string name="minute_hint">Minute</string>
+    <string name="content_hint">Inhalt schreiben</string>
+    <string name="ticker_entry_commit">Send</string>
+    <string name="title_write_tickerentry">Eintrag schreiben</string>
+    <string name="ticker_entry_edit">bearbeiten</string>
+    <string name="ticker_entry_delete">löschen</string>
+    <string name="title_activity_game">GameActivity</string>
+    <string name="game_enemy">Gegner</string>
+    <string name="game_date">Datum</string>
+    <string name="game_edit_title">Spiel bearbeiten</string>
+    <string name="game_time_placeholder">Uhrzeit</string>
+</resources>
