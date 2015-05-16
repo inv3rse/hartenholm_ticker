@@ -5,15 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.rest.RestClient;
-import com.appspot.simple_ticker.hartenholmticker.rest.TickerApi;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
 
 import java.util.Date;
 

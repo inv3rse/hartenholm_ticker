@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.appspot.simple_ticker.hartenholmticker.ui.news.NewsFragment;
+import com.appspot.simple_ticker.hartenholmticker.ui.tables.TableFragment;
 import com.appspot.simple_ticker.hartenholmticker.ui.ticker.TickerFragment;
 
 
@@ -28,7 +29,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         {
             return new NewsFragment();
         }
-        else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
+        else if (position == 1)
+        {
+            return new TableFragment();
+        }
+        else
         {
             return new TickerFragment();
         }

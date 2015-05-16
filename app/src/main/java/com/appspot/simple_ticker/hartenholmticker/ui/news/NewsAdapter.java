@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.appspot.simple_ticker.hartenholmticker.R;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.List;
 
@@ -25,25 +24,19 @@ public class NewsAdapter extends ArrayAdapter<Element>
         super(context, R.layout.news_card, elements);
         _elements = elements;
         _context = context;
-
-        // remove the last element which is a repetition of the first or the second
-        // if it has a date
-        for (Element element : _elements)
-        {
-            Elements children = element.children();
-            if (children.size() >=  3 && (
-                    children.first().equals(children.last())) ||
-                    children.get(1).equals(children.last()))
-            {
-                children.last().remove();
-            }
-        }
     }
 
     @Override
     public int getCount()
     {
         return _elements.size();
+    }
+
+    @Override
+    public void clear()
+    {
+        super.clear();
+        _elements.clear();
     }
 
     @Override

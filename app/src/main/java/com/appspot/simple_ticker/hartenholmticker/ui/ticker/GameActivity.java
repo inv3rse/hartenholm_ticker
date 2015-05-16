@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
-import com.appspot.simple_ticker.hartenholmticker.rest.RestClient;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;

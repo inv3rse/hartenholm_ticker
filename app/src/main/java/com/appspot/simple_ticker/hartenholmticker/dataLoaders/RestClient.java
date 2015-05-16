@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.rest;
+package com.appspot.simple_ticker.hartenholmticker.dataLoaders;
 
 
 import retrofit.RestAdapter;

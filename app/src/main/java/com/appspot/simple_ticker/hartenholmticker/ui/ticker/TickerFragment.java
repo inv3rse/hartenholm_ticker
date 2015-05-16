@@ -17,8 +17,8 @@ import android.widget.ListView;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.rest.RestClient;
-import com.appspot.simple_ticker.hartenholmticker.rest.TickerApi;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Date;

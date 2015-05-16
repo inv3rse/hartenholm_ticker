@@ -1,32 +1,26 @@
 package com.appspot.simple_ticker.hartenholmticker.ui.news;
 
-
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
-import com.appspot.simple_ticker.hartenholmticker.news.NewsFetcher;
+import com.appspot.simple_ticker.hartenholmticker.presenters.NewsPresenter;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import org.jsoup.select.Elements;
 
+import nucleus.factory.RequiresPresenter;
+import nucleus.view.NucleusSupportFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class NewsFragment extends Fragment
+@RequiresPresenter(NewsPresenter.class)
+public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
 {
-
-
-    public NewsFragment()
-    {
-        // Required empty public constructor
-    }
-
+    private ListView _listView = null;
+    private SwipeRefreshLayout _refreshLayout = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,31 +29,36 @@ public class NewsFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
-        ListView news = (ListView) view.findViewById(R.id.news_list);
+        _listView = (ListView) view.findViewById(R.id.news_list);
+        _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news);
 
-        // load news and populate view
-        NewsFetcher.fetch()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        result -> news.setAdapter(new NewsAdapter(news.getContext(), result)),
-                        Throwable::printStackTrace
-                );
+        _refreshLayout.setOnRefreshListener(
+                () ->
+                {
+                    getPresenter().fetchData();
+                    _refreshLayout.setRefreshing(true);
+                }
+        );
 
         return view;
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-//    {
-//        inflater.inflate(R.menu.appointments, menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item)
-//    {
-//        int id = item.getItemId();
-//        return super.onOptionsItemSelected(item);
-//    }
+    public void setLoading(boolean loading)
+    {
+        if (_refreshLayout != null)
+        {
+            _refreshLayout.setRefreshing(loading);
+        }
+    }
 
+    public void onItemsNext(Elements newsEntries)
+    {
+        System.out.println("itemsnext called");
+        _listView.setAdapter(new NewsAdapter(getActivity(), newsEntries));
+    }
+
+    public void onItemsError(Throwable throwable)
+    {
+        Toast.makeText(getActivity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

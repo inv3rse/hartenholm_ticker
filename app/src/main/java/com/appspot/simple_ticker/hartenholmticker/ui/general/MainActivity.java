@@ -8,14 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
-import com.appspot.simple_ticker.hartenholmticker.rest.RestClient;
-import com.appspot.simple_ticker.hartenholmticker.rest.TickerApi;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
 
 
 public class MainActivity extends AppCompatActivity
 {
     Toolbar _toolbar;
-    CharSequence _titles[] = {"News", "Ticker"};
+    CharSequence _titles[] = {"News", "Tabelle", "Ticker"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
