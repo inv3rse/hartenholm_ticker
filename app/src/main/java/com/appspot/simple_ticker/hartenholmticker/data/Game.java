@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class Game implements Parcelable
 {
-    static public final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.GERMAN);
+    static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.GERMAN);
 
     @SerializedName("id")
     private String _id;

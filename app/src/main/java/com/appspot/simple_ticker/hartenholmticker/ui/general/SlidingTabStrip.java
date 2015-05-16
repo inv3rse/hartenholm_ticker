@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.general;
 
 /*
  * Copyright 2014 Google Inc. All rights reserved.

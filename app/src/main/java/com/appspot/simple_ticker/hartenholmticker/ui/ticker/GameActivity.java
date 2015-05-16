@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,9 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
@@ -104,12 +102,12 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
                     String dateStr = _dateEdit.getText().toString();
                     try
                     {
-                        Date date = Game.DATE_FORMAT.parse(dateStr);
+                        Date date = DATE_FORMAT.parse(dateStr);
                         if (!enemy.isEmpty())
                         {
                             RestClient.getApi().createGame(new Game(enemy, date)).subscribe(
                                     resutl -> finish(),
-                                    e -> e.printStackTrace()
+                                    Throwable::printStackTrace
                             );
                         }
                     } catch (ParseException e)

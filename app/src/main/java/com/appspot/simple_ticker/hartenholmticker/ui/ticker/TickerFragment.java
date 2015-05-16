@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 
 
 import android.content.Intent;
@@ -112,7 +112,7 @@ public class TickerFragment extends Fragment
             TickerEntry entry = (TickerEntry)_listView.getAdapter().getItem(info.position);
             _api.deleteEntry(_currentGame.getId(), entry.getId()).subscribe(
                     result -> System.out.println("Entry deleted"),
-                    error -> error.printStackTrace()
+                    Throwable::printStackTrace
             );
         }
         else if (id == R.id.action_edit_entry)
@@ -162,7 +162,7 @@ public class TickerFragment extends Fragment
                     _listView.setAdapter(new TickerEntryAdapter(getActivity(), result.getEntries()));
                     _currentGame = result;
                 },
-                error -> error.printStackTrace());
+                Throwable::printStackTrace);
     }
 
 }

@@ -1,16 +1,18 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.news;
 
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
+import com.appspot.simple_ticker.hartenholmticker.news.NewsFetcher;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -31,7 +33,20 @@ public class NewsFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news, container, false);
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+
+        ListView news = (ListView) view.findViewById(R.id.news_list);
+
+        // load news and populate view
+        NewsFetcher.fetch()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        result -> news.setAdapter(new NewsAdapter(news.getContext(), result)),
+                        Throwable::printStackTrace
+                );
+
+        return view;
     }
 
 //    @Override

@@ -1,8 +1,11 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.general;
 
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
+import com.appspot.simple_ticker.hartenholmticker.ui.news.NewsFragment;
+import com.appspot.simple_ticker.hartenholmticker.ui.ticker.TickerFragment;
 
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {

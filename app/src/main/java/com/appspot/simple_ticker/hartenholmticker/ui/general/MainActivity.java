@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.general;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -33,14 +33,9 @@ public class MainActivity extends AppCompatActivity
         SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
         tabLayout.setDistributeEvenly(true); // all have the same size
 
-        tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer()
-        {
-            @Override
-            public int getIndicatorColor(int position)
-            {
-                return getResources().getColor(R.color.tabsScrollColor);
-            }
-        });
+        tabLayout.setCustomTabColorizer(
+                position -> getResources().getColor(R.color.tabsScrollColor)
+        );
 
         tabLayout.setViewPager(viewPager);
     }

@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 
 import android.content.Context;
 import android.view.LayoutInflater;

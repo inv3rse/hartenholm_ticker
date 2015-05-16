@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui;
+package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +54,7 @@ public class TickerEntryActivity extends AppCompatActivity
             return;
         }
 
-        _tickerEntry =arguments.getParcelable(EXTRA_CHANGE_ENTRY);
+        _tickerEntry = arguments.getParcelable(EXTRA_CHANGE_ENTRY);
 
         // init ui fields
         if (_tickerEntry == null)
@@ -70,48 +70,43 @@ public class TickerEntryActivity extends AppCompatActivity
         _api = RestClient.getApi();
 
         Button commit = (Button) findViewById(R.id.entry_commit);
-        commit.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                String minute = _minuteEdit.getText().toString();
-                String content = _contentEdit.getText().toString();
-
-                if (!minute.isEmpty() && !content.isEmpty())
+        commit.setOnClickListener(
+                view ->
                 {
-                    _tickerEntry.setContent(content);
-                    _tickerEntry.setMinute(Integer.parseInt(minute));
-                    _tickerEntry.setPostDate(new Date());
+                    String minute = _minuteEdit.getText().toString();
+                    String content = _contentEdit.getText().toString();
 
-                    if (_tickerEntry.idIsValid())
+                    if (!minute.isEmpty() && !content.isEmpty())
                     {
-                        // change existing entry
-                        _api.editEntry(_gameId, _tickerEntry.getId(), _tickerEntry).subscribe(
-                                result ->
-                                {
-                                    System.out.println("successfull");
-                                    finish();
-                                },
-                                error -> error.printStackTrace()
-                        );
-                    }
-                    else
-                    {
-                        // create new entry
-                        _api.createEntry(_gameId, _tickerEntry).subscribe(
-                                result ->
-                                {
-                                    System.out.println("successfull");
-                                    finish();
-                                },
-                                error -> error.printStackTrace()
-                        );
-                    }
+                        _tickerEntry.setContent(content);
+                        _tickerEntry.setMinute(Integer.parseInt(minute));
+                        _tickerEntry.setPostDate(new Date());
 
-                }
-            }
-        });
+                        if (_tickerEntry.idIsValid())
+                        {
+                            // change existing entry
+                            _api.editEntry(_gameId, _tickerEntry.getId(), _tickerEntry).subscribe(
+                                    result ->
+                                    {
+                                        System.out.println("successfull");
+                                        finish();
+                                    },
+                                    Throwable::printStackTrace
+                            );
+                        } else
+                        {
+                            // create new entry
+                            _api.createEntry(_gameId, _tickerEntry).subscribe(
+                                    result ->
+                                    {
+                                        System.out.println("successfull");
+                                        finish();
+                                    },
+                                    Throwable::printStackTrace
+                            );
+                        }
+                    }
+                });
     }
 
     @Override

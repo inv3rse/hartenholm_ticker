@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.general.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,23 +20,23 @@
         </activity>
 
         <activity
-            android:name=".ui.TickerEntryActivity"
+            android:name=".ui.ticker.TickerEntryActivity"
             android:label="@string/title_activity_create_ticker_entry"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".ui.general.MainActivity"
             android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.appspot.simple_ticker.hartenholmticker.ui.MainActivity" />
+                android:value=".ui.general.MainActivity" />
         </activity>
 
         <activity
-            android:name=".ui.GameActivity"
+            android:name=".ui.ticker.GameActivity"
             android:label="@string/title_activity_game"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".ui.general.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.appspot.simple_ticker.hartenholmticker.ui.MainActivity" />
+                android:value=".ui.general.MainActivity" />
         </activity>
 
     </application>
