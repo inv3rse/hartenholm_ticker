@@ -19,4 +19,11 @@
     <string name="game_date">Datum</string>
     <string name="game_edit_title">Spiel bearbeiten</string>
     <string name="game_time_placeholder">Uhrzeit</string>
+    <string name="drawer_news">News</string>
+    <string name="drawer_ticker">Ticker</string>
+    <string name="drawer_teams_section_name">Mannschaften</string>
+    <string name="drawer_teams1">1. Herren</string>
+    <string name="drawer_teams2">2. Herren</string>
+    <string name="drawer_teams3">3. Herren</string>
+    <string name="drawer_settings">Settings</string>
 </resources>

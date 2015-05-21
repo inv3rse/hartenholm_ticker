@@ -40,4 +40,8 @@ dependencies {
 
     compile "frankiesardo:icepick:3.0.2"
     provided "frankiesardo:icepick-processor:3.0.2"
+
+    compile('com.mikepenz:materialdrawer:2.9.8@aar') {
+        transitive = true
+    }
 }
