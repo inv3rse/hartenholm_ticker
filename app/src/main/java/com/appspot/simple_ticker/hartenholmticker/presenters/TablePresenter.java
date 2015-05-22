@@ -13,6 +13,12 @@ import rx.schedulers.Schedulers;
 public class TablePresenter extends RxPresenter<TableFragment>
 {
     private Table _cachedData = null;
+    private String _teamId;
+
+    public TablePresenter(String teamId)
+    {
+        _teamId = teamId;
+    }
 
     @Override
     protected void onCreate(Bundle savedState)
@@ -41,7 +47,7 @@ public class TablePresenter extends RxPresenter<TableFragment>
     public void fetchData()
     {
         setLoading(true);
-        TableLoader.fetchTable(TableLoader.ID_HARTENHOLM_1)
+        TableLoader.fetchTable(_teamId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(

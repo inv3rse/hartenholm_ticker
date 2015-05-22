@@ -10,8 +10,10 @@ import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Table;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TableLoader;
 import com.appspot.simple_ticker.hartenholmticker.presenters.TablePresenter;
 
+import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
@@ -20,6 +22,16 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
 {
     private ListView _listView;
     private SwipeRefreshLayout _refreshLayout;
+
+    /**
+     * Create a Presenter with a specified teamID
+     * @return Factory to create a presenter for a specified team (data source)
+     */
+    @Override
+    public PresenterFactory<TablePresenter> getPresenterFactory()
+    {
+        return () -> new TablePresenter(TableLoader.ID_HARTENHOLM_1);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity
 
         AccountHeader.Result header = new AccountHeader()
                 .withActivity(this)
+                .withHeaderBackground(R.drawable.header)
+                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .build();
 
         _drawer = new Drawer()
