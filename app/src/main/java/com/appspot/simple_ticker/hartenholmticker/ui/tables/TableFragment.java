@@ -42,6 +42,7 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
 
         _listView = (ListView) view.findViewById(R.id.table_rows);
         _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_table);
+        _refreshLayout.setRefreshing(true);
 
         _refreshLayout.setOnRefreshListener(
                 () -> getPresenter().fetchData()

@@ -167,6 +167,9 @@ public class MainActivity extends AppCompatActivity
                 case TEAM1_FRAGMENT_TAG:
                     fragment = new TableFragment();
                     break;
+                case TEAM2_FRAGMENT_TAG:
+                    fragment = new LineUpFragment();
+                    break;
                 default:
                     System.out.println("Fragment does not exist");
                     return;

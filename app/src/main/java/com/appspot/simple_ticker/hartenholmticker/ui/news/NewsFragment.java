@@ -31,12 +31,12 @@ public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
 
         _listView = (ListView) view.findViewById(R.id.news_list);
         _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news);
+        _refreshLayout.setRefreshing(true);
 
         _refreshLayout.setOnRefreshListener(
                 () ->
                 {
                     getPresenter().fetchData();
-                    _refreshLayout.setRefreshing(true);
                 }
         );
 
