@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.ui.tables;
+package com.appspot.simple_ticker.hartenholmticker.ui.team;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Table;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TableLoader;
 import com.appspot.simple_ticker.hartenholmticker.presenters.TablePresenter;
 
 import nucleus.factory.PresenterFactory;
@@ -20,8 +19,28 @@ import nucleus.view.NucleusSupportFragment;
 @RequiresPresenter(TablePresenter.class)
 public class TableFragment extends NucleusSupportFragment<TablePresenter>
 {
+    private static final String ARG_TEAM_ID = "ARG_TEAM_ID";
+
+    public static TableFragment create(String teamId)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_TEAM_ID, teamId);
+
+        TableFragment fragment = new TableFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     private ListView _listView;
     private SwipeRefreshLayout _refreshLayout;
+    private String _teamId;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        _teamId = getArguments().getString(ARG_TEAM_ID);
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * Create a Presenter with a specified teamID
@@ -30,7 +49,7 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
     @Override
     public PresenterFactory<TablePresenter> getPresenterFactory()
     {
-        return () -> new TablePresenter(TableLoader.ID_HARTENHOLM_1);
+        return () -> new TablePresenter(_teamId);
     }
 
     @Override

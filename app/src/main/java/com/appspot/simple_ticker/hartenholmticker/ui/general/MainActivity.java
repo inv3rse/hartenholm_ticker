@@ -13,9 +13,13 @@ import android.widget.ImageView;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TableLoader;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TeamLoader;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
 import com.appspot.simple_ticker.hartenholmticker.ui.news.NewsFragment;
-import com.appspot.simple_ticker.hartenholmticker.ui.tables.TableFragment;
+import com.appspot.simple_ticker.hartenholmticker.ui.team.LineUpFragment;
+import com.appspot.simple_ticker.hartenholmticker.ui.team.TableFragment;
+import com.appspot.simple_ticker.hartenholmticker.ui.team.TeamFragment;
 import com.appspot.simple_ticker.hartenholmticker.ui.ticker.TickerFragment;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -97,21 +101,6 @@ public class MainActivity extends AppCompatActivity
                 .withSavedInstance(savedInstanceState)
                 .withFireOnInitialOnClick(true)
                 .build();
-
-//        setFragment(_currentFragmentTag);
-
-//        ViewPagerAdapter pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), _titles);
-//        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-//        viewPager.setAdapter(pagerAdapter);
-//
-//        SlidingTabLayout tabLayout = (SlidingTabLayout) findViewById(R.id.tabs);
-//        tabLayout.setDistributeEvenly(true); // all have the same size
-//
-//        tabLayout.setCustomTabColorizer(
-//                position -> getResources().getColor(R.color.tabsScrollColor)
-//        );
-//
-//        tabLayout.setViewPager(viewPager);
     }
 
     @Override
@@ -165,10 +154,13 @@ public class MainActivity extends AppCompatActivity
                     fragment = new TickerFragment();
                     break;
                 case TEAM1_FRAGMENT_TAG:
-                    fragment = new TableFragment();
+                    fragment = TeamFragment.create(TableLoader.ID_HARTENHOLM_1, TeamLoader.TEAM1_ID);
                     break;
                 case TEAM2_FRAGMENT_TAG:
-                    fragment = new LineUpFragment();
+                    fragment = TeamFragment.create(TableLoader.ID_HARTENHOLM_2, TeamLoader.TEAM2_ID);
+                    break;
+                case TEAM3_FRAGMENT_TAG:
+                    fragment = TeamFragment.create(TableLoader.ID_HARTENHOLM_3, TeamLoader.TEAM3_ID);
                     break;
                 default:
                     System.out.println("Fragment does not exist");

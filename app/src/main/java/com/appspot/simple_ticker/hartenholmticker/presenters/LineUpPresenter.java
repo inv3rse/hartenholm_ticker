@@ -1,23 +1,28 @@
 package com.appspot.simple_ticker.hartenholmticker.presenters;
 
+
 import android.os.Bundle;
 
-import com.appspot.simple_ticker.hartenholmticker.data.Table;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TableLoader;
-import com.appspot.simple_ticker.hartenholmticker.ui.team.TableFragment;
+import com.appspot.simple_ticker.hartenholmticker.data.Player;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TeamLoader;
+import com.appspot.simple_ticker.hartenholmticker.ui.team.LineUpFragment;
+
+import java.util.List;
 
 import nucleus.presenter.RxPresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class TablePresenter extends RxPresenter<TableFragment>
+public class LineUpPresenter extends RxPresenter<LineUpFragment>
 {
-    private Table _cachedData = null;
-    private String _teamId;
+    private List<Player> _cachedData = null;
+    private String _team;
+    private String _saison;
 
-    public TablePresenter(String teamId)
+    public LineUpPresenter(String team, String saison)
     {
-        _teamId = teamId;
+        _team = team;
+        _saison = saison;
     }
 
     @Override
@@ -27,17 +32,15 @@ public class TablePresenter extends RxPresenter<TableFragment>
     }
 
     @Override
-    protected void onTakeView(TableFragment view)
+    protected void onTakeView(LineUpFragment view)
     {
         super.onTakeView(view);
         if (view != null)
         {
             if (_cachedData != null)
             {
-                setLoading(false);
                 getView().onItemsNext(_cachedData);
-            }
-            else
+            } else
             {
                 fetchData();
             }
@@ -46,31 +49,20 @@ public class TablePresenter extends RxPresenter<TableFragment>
 
     public void fetchData()
     {
-        setLoading(true);
-        TableLoader.fetchTable(_teamId)
+        TeamLoader.fetchLineUp(_team, _saison)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(
-                        table ->
+                        players ->
                         {
-                            _cachedData = table;
-                            setLoading(false);
-                            getView().onItemsNext(table);
+                            _cachedData = players;
+                            getView().onItemsNext(players);
                         },
                         error ->
                         {
-                            setLoading(false);
                             getView().onItemsError(error);
                         }
                 );
     }
 
-
-    private void setLoading(boolean loading)
-    {
-        if (getView() != null)
-        {
-            getView().setLoading(loading);
-        }
-    }
 }
