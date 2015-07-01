@@ -34,7 +34,6 @@ public class TablePresenter extends RxPresenter<TableFragment>
         {
             if (_cachedData != null)
             {
-                setLoading(false);
                 getView().onItemsNext(_cachedData);
             }
             else
@@ -46,31 +45,20 @@ public class TablePresenter extends RxPresenter<TableFragment>
 
     public void fetchData()
     {
-        setLoading(true);
         TableLoader.fetchTable(_teamId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
+                .compose(this.<Table>deliverLatest())
                 .subscribe(
                         table ->
                         {
                             _cachedData = table;
-                            setLoading(false);
                             getView().onItemsNext(table);
                         },
                         error ->
                         {
-                            setLoading(false);
                             getView().onItemsError(error);
                         }
                 );
-    }
-
-
-    private void setLoading(boolean loading)
-    {
-        if (getView() != null)
-        {
-            getView().setLoading(loading);
-        }
     }
 }

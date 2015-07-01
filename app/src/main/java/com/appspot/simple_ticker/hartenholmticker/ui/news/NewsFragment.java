@@ -21,6 +21,7 @@ public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
 {
     private ListView _listView = null;
     private SwipeRefreshLayout _refreshLayout = null;
+    private boolean _isLoaded = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,34 +32,36 @@ public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
 
         _listView = (ListView) view.findViewById(R.id.news_list);
         _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_news);
-        _refreshLayout.setRefreshing(true);
 
-        _refreshLayout.setOnRefreshListener(
-                () ->
-                {
-                    getPresenter().fetchData();
-                }
-        );
+        _refreshLayout.setOnRefreshListener(() ->
+        {
+            _refreshLayout.setRefreshing(true);
+            getPresenter().fetchData();
+        });
+
+        // dirty fix as initial setRefreshing is bugged
+        _refreshLayout.post(() ->
+        {
+            if (!_isLoaded)
+            {
+                _refreshLayout.setRefreshing(true);
+            }
+        });
 
         return view;
     }
 
-    public void setLoading(boolean loading)
-    {
-        if (_refreshLayout != null)
-        {
-            _refreshLayout.setRefreshing(loading);
-        }
-    }
-
     public void onItemsNext(Elements newsEntries)
     {
-        System.out.println("itemsnext called");
         _listView.setAdapter(new NewsAdapter(getActivity(), newsEntries));
+        _isLoaded = true;
+        _refreshLayout.setRefreshing(false);
     }
 
     public void onItemsError(Throwable throwable)
     {
+        _isLoaded = true;
+        _refreshLayout.setRefreshing(false);
         Toast.makeText(getActivity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
     }
 }

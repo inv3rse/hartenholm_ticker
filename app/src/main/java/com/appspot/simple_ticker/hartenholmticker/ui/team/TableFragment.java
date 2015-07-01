@@ -21,6 +21,8 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
 {
     private static final String ARG_TEAM_ID = "ARG_TEAM_ID";
 
+    private boolean _isInitiated = false;
+
     public static TableFragment create(String teamId)
     {
         Bundle bundle = new Bundle();
@@ -61,30 +63,36 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
 
         _listView = (ListView) view.findViewById(R.id.table_rows);
         _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.fragment_table);
-        _refreshLayout.setRefreshing(true);
 
-        _refreshLayout.setOnRefreshListener(
-                () -> getPresenter().fetchData()
-        );
+        _refreshLayout.setOnRefreshListener(() ->
+        {
+            _refreshLayout.setRefreshing(true);
+            getPresenter().fetchData();
+        });
+
+        // dirty fix as initial setRefreshing is bugged
+        _refreshLayout.post(() ->
+        {
+            if (!_isInitiated)
+            {
+                _refreshLayout.setRefreshing(true);
+            }
+        });
 
         return view;
     }
 
     public void onItemsNext(Table table)
     {
+        _isInitiated = true;
         _listView.setAdapter(new TableAdapter(getActivity(), table));
+        _refreshLayout.setRefreshing(false);
     }
 
     public void onItemsError(Throwable throwable)
     {
+        _isInitiated = true;
+        _refreshLayout.setRefreshing(false);
         Toast.makeText(getActivity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-    }
-
-    public void setLoading(boolean loading)
-    {
-        if (_refreshLayout != null)
-        {
-            _refreshLayout.setRefreshing(loading);
-        }
     }
 }

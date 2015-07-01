@@ -16,7 +16,6 @@ public class Table
 
     public TableEntry get(int index)
     {
-//        assert index < size() && index >= 0;
         return _entries.get(index);
     }
 
@@ -30,19 +29,9 @@ public class Table
         return _entries;
     }
 
-    public void setEntries(List<TableEntry> entries)
-    {
-        _entries = entries;
-    }
-
     public String getLeagueName()
     {
         return _leagueName;
-    }
-
-    public void setLeagueName(String leagueName)
-    {
-        _leagueName = leagueName;
     }
 
     public static class TableEntry

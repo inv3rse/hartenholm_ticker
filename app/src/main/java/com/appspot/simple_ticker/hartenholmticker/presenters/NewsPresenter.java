@@ -7,6 +7,8 @@ import com.appspot.simple_ticker.hartenholmticker.ui.news.NewsFragment;
 
 import org.jsoup.select.Elements;
 
+import java.util.concurrent.TimeUnit;
+
 import nucleus.presenter.RxPresenter;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -29,7 +31,6 @@ public class NewsPresenter extends RxPresenter<NewsFragment>
         {
             if (_cachedData != null)
             {
-                setLoading(false);
                 getView().onItemsNext(_cachedData);
             }
             else
@@ -41,31 +42,20 @@ public class NewsPresenter extends RxPresenter<NewsFragment>
 
     public void fetchData()
     {
-        setLoading(true);
         NewsLoader.fetch()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
+                .compose(this.<Elements>deliverLatest())
                 .subscribe(
                         elements ->
                         {
                             _cachedData = elements;
-                            setLoading(false);
                             getView().onItemsNext(elements);
                         },
                         error ->
                         {
-                            setLoading(false);
                             getView().onItemsError(error);
                         }
                 );
-    }
-
-
-    private void setLoading(boolean loading)
-    {
-        if (getView() != null)
-        {
-            getView().setLoading(loading);
-        }
     }
 }

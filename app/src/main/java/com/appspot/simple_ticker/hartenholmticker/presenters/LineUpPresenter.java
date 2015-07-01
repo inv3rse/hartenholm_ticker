@@ -52,6 +52,7 @@ public class LineUpPresenter extends RxPresenter<LineUpFragment>
         TeamLoader.fetchLineUp(_team, _saison)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
+                .compose(this.<List<Player>>deliverLatest())
                 .subscribe(
                         players ->
                         {
