@@ -32,19 +32,16 @@ public class TableLoader
                     {
                         if (!observer.isUnsubscribed())
                         {
-                            String leagueStr;
+                            String leagueStr = "unknown";
                             ArrayList<Table.TableEntry> entries = new ArrayList<>();
 
                             Document document = Jsoup.connect(URL.replace("{id}", id)).get();
                             Elements league = document.select("div.inner > a.profile-value");
 
-                            if (league.isEmpty())
+                            if (!league.isEmpty())
                             {
-                                observer.onError(new IOException("can not load table data"));
-                                return;
+                                leagueStr = league.first().text();
                             }
-
-                            leagueStr = league.first().text();
 
                             // fetch all table entries
                             Elements rows = document.select("#team-fixture-league-tables > table.table > tbody > tr");
