@@ -9,9 +9,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
+import com.appspot.simple_ticker.hartenholmticker.data.NewsEntry;
 import com.appspot.simple_ticker.hartenholmticker.presenters.NewsPresenter;
 
 import org.jsoup.select.Elements;
+
+import java.util.List;
 
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
@@ -51,7 +54,7 @@ public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
         return view;
     }
 
-    public void onItemsNext(Elements newsEntries)
+    public void onItemsNext(List<NewsEntry> newsEntries)
     {
         _listView.setAdapter(new NewsAdapter(getActivity(), newsEntries));
         _isLoaded = true;

@@ -2,11 +2,13 @@ package com.appspot.simple_ticker.hartenholmticker.presenters;
 
 import android.os.Bundle;
 
+import com.appspot.simple_ticker.hartenholmticker.data.NewsEntry;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.NewsLoader;
 import com.appspot.simple_ticker.hartenholmticker.ui.news.NewsFragment;
 
 import org.jsoup.select.Elements;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nucleus.presenter.RxPresenter;
@@ -15,7 +17,7 @@ import rx.schedulers.Schedulers;
 
 public class NewsPresenter extends RxPresenter<NewsFragment>
 {
-    private Elements _cachedData = null;
+    private List<NewsEntry> _cachedData = null;
 
     @Override
     protected void onCreate(Bundle savedState)
@@ -45,7 +47,7 @@ public class NewsPresenter extends RxPresenter<NewsFragment>
         NewsLoader.fetch()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .compose(this.<Elements>deliverLatest())
+                .compose(this.<List<NewsEntry>>deliverLatest())
                 .subscribe(
                         elements ->
                         {

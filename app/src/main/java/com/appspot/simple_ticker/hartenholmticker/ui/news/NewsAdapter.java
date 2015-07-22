@@ -9,17 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
+import com.appspot.simple_ticker.hartenholmticker.data.NewsEntry;
 
 import org.jsoup.nodes.Element;
 
 import java.util.List;
 
-public class NewsAdapter extends ArrayAdapter<Element>
+public class NewsAdapter extends ArrayAdapter<NewsEntry>
 {
     private Context _context;
-    private List<Element> _elements;
+    private List<NewsEntry> _elements;
 
-    public NewsAdapter(Context context, List<Element> elements)
+    public NewsAdapter(Context context, List<NewsEntry> elements)
     {
         super(context, R.layout.news_card, elements);
         _elements = elements;
@@ -45,12 +46,14 @@ public class NewsAdapter extends ArrayAdapter<Element>
         LayoutInflater inflater = (LayoutInflater) _context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        Element element = _elements.get(position);
+        NewsEntry newsEntry = _elements.get(position);
 
         View rowView = inflater.inflate(R.layout.news_card, parent, false);
+        TextView title = (TextView) rowView.findViewById(R.id.news_card_title);
         TextView content = (TextView) rowView.findViewById(R.id.news_card_content);
 
-        content.setText(Html.fromHtml(element.html()));
+        title.setText(newsEntry.getTitle());
+        content.setText(Html.fromHtml(newsEntry.getContent()));
 
         return rowView;
     }

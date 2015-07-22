@@ -5,12 +5,44 @@
     android:layout_height="wrap_content"
     android:layout_margin="2dp">
 
-    <TextView
-        android:id="@+id/news_card_content"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Drei neue Spieler für den TuS! Mit Robert Wasner (SG Trave 06 A-Jugend), Tolga Güvenir (Fethispor Kaltenkirchen) und Maurice Borgert (SV Schackendorf) streifen sich drei Spieler in der kommenden Spielzeit das TuS Trikot über. Mit Robert und Tolga haben wir zwei Spieler in unseren Reihen, die sich eher in der Innenverteidigung sehen. Maurice Borgert hingegen wird ein Spieler für die Offensive sein. Sein Lieblingsplatz ist auf der Außenposition. Mit weiteren Spielern werden anscheinend noch Gespräche geführt. Mit Tim Ollenschläger haben wir jedoch einen Abgang zu vermelden. wird sich aus privaten Gründen etwas zurück ziehen und im Bereich Kiel eine neue Mannschaft finden. Dir auf diesem Wege sportlich alles Gute.Wir sind gespannt was sich in den kommenden Tagen und Wochen noch ergibt. Wir halten euch auf dem Laufenden."
-        style="@style/AppTheme"
-        android:textSize="@dimen/abc_text_size_small_material"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/news_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Samstag, 19.07.2015"
+            style="@style/AppTheme"
+            android:textSize="@dimen/abc_text_size_title_material"
+            android:textStyle="bold|italic"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/news_card_content"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Drei neue Spieler für den TuS! Mit Robert Wasner (SG Trave 06 A-Jugend), Tolga Güvenir (Fethispor Kaltenkirchen) und Maurice Borgert (SV Schackendorf) streifen sich drei Spieler in der kommenden Spielzeitsportlich alles Gute.Wir sind gespannt was sich in den kommenden Tagen und Wochen noch ergibt. Wir halten euch auf dem Laufenden."
+                style="@style/AppTheme"
+                android:textSize="@dimen/abc_text_size_small_material"/>
+
+            <!--<ImageView-->
+                <!--android:id="@+id/player_image"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:contentDescription="@string/player_name_descr"-->
+                <!--android:layout_gravity="center_horizontal"/>-->
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 </android.support.v7.widget.CardView>
