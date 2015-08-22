@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity
     private static final String TEAM3_FRAGMENT_TAG = "3. Herren";
 
     private Drawer.Result _drawer;
-//    CharSequence _titles[] = {"News", "Tabelle", "Ticker"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

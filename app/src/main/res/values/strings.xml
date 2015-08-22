@@ -6,6 +6,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="minute_descr">Minute:</string>
     <string name="title_activity_create_ticker_entry">CreateTickerEntryActivity</string>
     <string name="minute_hint">Minute</string>
@@ -19,6 +20,7 @@
     <string name="game_date">Datum</string>
     <string name="game_edit_title">Spiel bearbeiten</string>
     <string name="game_time_placeholder">Uhrzeit</string>
+
     <string name="drawer_news">News</string>
     <string name="drawer_ticker">Ticker</string>
     <string name="drawer_teams_section_name">Mannschaften</string>
@@ -26,5 +28,6 @@
     <string name="drawer_teams2">2. Herren</string>
     <string name="drawer_teams3">3. Herren</string>
     <string name="drawer_settings">Settings</string>
+
     <string name="player_name_descr">player name</string>
 </resources>
