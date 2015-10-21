@@ -24,7 +24,7 @@ public interface TickerApi
     Observable<Game> createGame(@Body Game game);
 
     @GET("/game/{id}")
-    Observable<Game> getGame(@Path("id") int id);
+    Observable<Game> getGame(@Path("id") String id);
 
     @GET("/currentGame")
     Observable<Game> getCurrentGame();
@@ -39,5 +39,5 @@ public interface TickerApi
     Observable<Message> deleteEntry(@Path("game_id") String game_id, @Path("entry_id") String entryId);
 
     @DELETE("/game/{id}")
-    void deletePlace(@Path("id") int id);
+    void deleteGame(@Path("id") int id);
 }

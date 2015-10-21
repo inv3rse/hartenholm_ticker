@@ -3,11 +3,11 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".TickerFragment">
 
-      <item android:id="@+id/action_sync"
-            android:title="sync"
-            app:showAsAction="ifRoom"/>
-
       <item android:id="@+id/action_new_game"
             android:title="new game"
+            app:showAsAction="never"/>
+
+      <item android:id="@+id/action_delete_game"
+            android:title="delete this game"
             app:showAsAction="never"/>
 </menu>

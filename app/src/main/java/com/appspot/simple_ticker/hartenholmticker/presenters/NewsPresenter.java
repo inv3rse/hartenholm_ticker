@@ -87,6 +87,7 @@ public class NewsPresenter extends RxPresenter<NewsFragment>
                         error ->
                         {
                             getView().showErrorMsg(error.getLocalizedMessage());
+                            getView().setLoading(false);
                         }
                 );
     }

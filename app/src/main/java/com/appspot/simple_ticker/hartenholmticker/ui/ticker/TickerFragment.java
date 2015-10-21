@@ -3,7 +3,7 @@ package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,34 +13,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
+import com.appspot.simple_ticker.hartenholmticker.presenters.TickerPresenter;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.Date;
+import java.util.List;
 
+import nucleus.factory.RequiresPresenter;
+import nucleus.view.NucleusSupportFragment;
 import rx.android.schedulers.AndroidSchedulers;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TickerFragment extends Fragment
+@RequiresPresenter(TickerPresenter.class)
+public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
 {
-    private static final String KEY_CURRENT_GAME = "key_current_game";
-
-    private TickerApi _api;
     private ListView _listView;
-    private Game _currentGame;
+    private SwipeRefreshLayout _refreshLayout;
 
     public TickerFragment()
     {
-        _currentGame = null;
-        _api = RestClient.getApi();
         setHasOptionsMenu(true);
     }
 
@@ -48,11 +46,6 @@ public class TickerFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-        {
-            _currentGame = savedInstanceState.getParcelable(KEY_CURRENT_GAME);
-        }
-
     }
 
     @Override
@@ -61,28 +54,17 @@ public class TickerFragment extends Fragment
     {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ticker, container, false);
-        _listView = (ListView) view.findViewById(R.id.entry_list);
 
-        if (_currentGame == null)
-        {
-            _currentGame = new Game("unknown", new Date());
-            loadCurrentGame();
-        }
-        else
-        {
-            _listView.setAdapter(new TickerEntryAdapter(getActivity(), _currentGame.getEntries()));
-        }
+        _listView = (ListView) view.findViewById(R.id.entry_list);
+        _refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.ticker_refreshLayout);
+
+        _refreshLayout.setOnRefreshListener(() -> getPresenter().updateCurrentGame());
 
         FloatingActionButton floatingActionButton = (FloatingActionButton) view.findViewById(R.id.ticker_fab);
         floatingActionButton.attachToListView(_listView);
 
         floatingActionButton.setOnClickListener(
-                contextView ->
-                {
-                    Intent intent = new Intent(getActivity(), TickerEntryActivity.class);
-                    intent.putExtra(TickerEntryActivity.EXTRA_GAME_ID, _currentGame.getId());
-                    getActivity().startActivity(intent);
-                }
+                contextView -> getPresenter().createEntry()
         );
 
         registerForContextMenu(_listView);
@@ -110,19 +92,13 @@ public class TickerFragment extends Fragment
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             TickerEntry entry = (TickerEntry)_listView.getAdapter().getItem(info.position);
-            _api.deleteEntry(_currentGame.getId(), entry.getId()).subscribe(
-                    result -> System.out.println("Entry deleted"),
-                    Throwable::printStackTrace
-            );
+            getPresenter().removeEntry(entry.getId());
         }
         else if (id == R.id.action_edit_entry)
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             TickerEntry entry = (TickerEntry)_listView.getAdapter().getItem(info.position);
-            Intent intent = new Intent(getActivity(), TickerEntryActivity.class);
-            intent.putExtra(TickerEntryActivity.EXTRA_GAME_ID, _currentGame.getId());
-            intent.putExtra(TickerEntryActivity.EXTRA_CHANGE_ENTRY, entry);
-            getActivity().startActivity(intent);
+            getPresenter().editEntry(entry);
         }
 
         return super.onContextItemSelected(item);
@@ -133,12 +109,7 @@ public class TickerFragment extends Fragment
     {
         int id = item.getItemId();
 
-        if (id == R.id.action_sync)
-        {
-            loadCurrentGame();
-            return true;
-        }
-        else if (id == R.id.action_new_game)
+         if (id == R.id.action_new_game)
         {
             Intent intent = new Intent(getActivity(), GameActivity.class);
             getActivity().startActivity(intent);
@@ -148,21 +119,31 @@ public class TickerFragment extends Fragment
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState)
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_CURRENT_GAME, _currentGame);
+        if (requestCode == TickerPresenter.UPDATE_CODE)
+        {
+            getPresenter().updateCurrentGame();
+        }
     }
 
-    private void loadCurrentGame()
+    public void setLoading(boolean loading)
     {
-        _api.getCurrentGame().observeOn(AndroidSchedulers.mainThread()).subscribe(
-                result ->
-                {
-                    _listView.setAdapter(new TickerEntryAdapter(getActivity(), result.getEntries()));
-                    _currentGame = result;
-                },
-                Throwable::printStackTrace);
+        _refreshLayout.post(() -> _refreshLayout.setRefreshing(loading));
     }
 
+    public void setGameOptions(List<Game> games)
+    {
+
+    }
+
+    public void setGame(Game game)
+    {
+        _listView.setAdapter(new TickerEntryAdapter(getActivity(), game.getEntries()));
+    }
+
+    public void showMsg(String msg)
+    {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
 }
