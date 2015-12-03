@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Table;
-import com.appspot.simple_ticker.hartenholmticker.presenters.TablePresenter;
 
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;

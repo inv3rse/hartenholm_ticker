@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.presenters;
+package com.appspot.simple_ticker.hartenholmticker.ui.team;
 
 
 import android.os.Bundle;

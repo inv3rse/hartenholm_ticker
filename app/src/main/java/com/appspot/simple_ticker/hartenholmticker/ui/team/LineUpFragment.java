@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Player;
-import com.appspot.simple_ticker.hartenholmticker.presenters.LineUpPresenter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

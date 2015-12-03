@@ -87,7 +87,7 @@ public class TickerEntryActivity extends AppCompatActivity
                             _api.editEntry(_gameId, _tickerEntry.getId(), _tickerEntry).subscribe(
                                     result ->
                                     {
-                                        System.out.println("successfull");
+                                        System.out.println("successful");
                                         finish();
                                     },
                                     Throwable::printStackTrace
@@ -98,7 +98,7 @@ public class TickerEntryActivity extends AppCompatActivity
                             _api.createEntry(_gameId, _tickerEntry).subscribe(
                                     result ->
                                     {
-                                        System.out.println("successfull");
+                                        System.out.println("successful");
                                         finish();
                                     },
                                     Throwable::printStackTrace

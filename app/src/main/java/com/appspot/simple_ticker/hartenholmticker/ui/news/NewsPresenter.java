@@ -1,4 +1,4 @@
-package com.appspot.simple_ticker.hartenholmticker.presenters;
+package com.appspot.simple_ticker.hartenholmticker.ui.news;
 
 import android.content.Intent;
 import android.net.Uri;

@@ -13,4 +13,8 @@ public class Message
     public Message()
     {}
 
+    public int getStatusCode()
+    {
+        return _statusCode;
+    }
 }

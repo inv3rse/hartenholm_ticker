@@ -5,7 +5,7 @@ import retrofit.RestAdapter;
 
 public class RestClient
 {
-    private static final String baseUrl = "http://simple-ticker.appspot.com";
+    private static final String baseUrl = "https://simple-ticker.appspot.com";
     private static TickerApi api = null;
 
     public static TickerApi getApi()

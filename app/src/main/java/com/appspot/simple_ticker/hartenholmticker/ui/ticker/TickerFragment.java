@@ -15,20 +15,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.appspot.simple_ticker.hartenholmticker.MyApp;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
-import com.appspot.simple_ticker.hartenholmticker.presenters.TickerPresenter;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.util.Date;
 import java.util.List;
 
+import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
-import rx.android.schedulers.AndroidSchedulers;
 
 
 @RequiresPresenter(TickerPresenter.class)
@@ -40,6 +37,11 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
     public TickerFragment()
     {
         setHasOptionsMenu(true);
+    }
+
+    public PresenterFactory<TickerPresenter> getPresenterFactory()
+    {
+        return () -> ((MyApp) getActivity().getApplication()).getPresenterComponent().getTickerPresenter();
     }
 
     @Override
@@ -91,13 +93,12 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
         if (id == R.id.action_delete_entry)
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            TickerEntry entry = (TickerEntry)_listView.getAdapter().getItem(info.position);
+            TickerEntry entry = (TickerEntry) _listView.getAdapter().getItem(info.position);
             getPresenter().removeEntry(entry.getId());
-        }
-        else if (id == R.id.action_edit_entry)
+        } else if (id == R.id.action_edit_entry)
         {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            TickerEntry entry = (TickerEntry)_listView.getAdapter().getItem(info.position);
+            TickerEntry entry = (TickerEntry) _listView.getAdapter().getItem(info.position);
             getPresenter().editEntry(entry);
         }
 
@@ -109,7 +110,7 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
     {
         int id = item.getItemId();
 
-         if (id == R.id.action_new_game)
+        if (id == R.id.action_new_game)
         {
             Intent intent = new Intent(getActivity(), GameActivity.class);
             getActivity().startActivity(intent);
