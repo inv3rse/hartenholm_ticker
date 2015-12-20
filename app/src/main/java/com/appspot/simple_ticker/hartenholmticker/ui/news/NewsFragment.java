@@ -24,7 +24,7 @@ public class NewsFragment extends NucleusSupportFragment<NewsPresenter>
     @Override
     public PresenterFactory<NewsPresenter> getPresenterFactory()
     {
-        return () -> ((MyApp) getActivity().getApplication()).getPresenterComponent().getNewsPresenter();
+        return () -> ((MyApp) getActivity().getApplication()).getAppComponent().getNewsPresenter();
     }
 
     @Override

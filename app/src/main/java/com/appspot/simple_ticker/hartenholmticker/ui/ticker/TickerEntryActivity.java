@@ -3,16 +3,14 @@ package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.appspot.simple_ticker.hartenholmticker.MyApp;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerApi;
+import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerClient;
 
 import java.util.Date;
 
@@ -26,7 +24,7 @@ public class TickerEntryActivity extends AppCompatActivity
 
     private String _gameId;
     private TickerEntry _tickerEntry;
-    private TickerApi _api;
+    private TickerClient _client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,7 +64,7 @@ public class TickerEntryActivity extends AppCompatActivity
         }
         _contentEdit.setText(_tickerEntry.getContent());
 
-        _api = RestClient.getApi();
+        _client = ((MyApp) getApplication()).getAppComponent().getTickerClient();
 
         Button commit = (Button) findViewById(R.id.entry_commit);
         commit.setOnClickListener(
@@ -84,25 +82,27 @@ public class TickerEntryActivity extends AppCompatActivity
                         if (_tickerEntry.idIsValid())
                         {
                             // change existing entry
-                            _api.editEntry(_gameId, _tickerEntry.getId(), _tickerEntry).subscribe(
-                                    result ->
-                                    {
-                                        System.out.println("successful");
-                                        finish();
-                                    },
-                                    Throwable::printStackTrace
-                            );
+                            _client.editEntry(_gameId, _tickerEntry)
+                                    .subscribe(
+                                            result ->
+                                            {
+                                                System.out.println("successful");
+                                                finish();
+                                            },
+                                            Throwable::printStackTrace
+                                    );
                         } else
                         {
                             // create new entry
-                            _api.createEntry(_gameId, _tickerEntry).subscribe(
-                                    result ->
-                                    {
-                                        System.out.println("successful");
-                                        finish();
-                                    },
-                                    Throwable::printStackTrace
-                            );
+                            _client.createEntry(_gameId, _tickerEntry)
+                                    .subscribe(
+                                            result ->
+                                            {
+                                                System.out.println("successful");
+                                                finish();
+                                            },
+                                            Throwable::printStackTrace
+                                    );
                         }
                     }
                 });

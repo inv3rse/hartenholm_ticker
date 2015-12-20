@@ -36,12 +36,13 @@ public class TickerClient
 
     public Observable<List<Game>> loadGames(int maxNum, boolean sync)
     {
-        if (!sync && _game != null)
+        if (!sync && _games != null)
         {
             return Observable.defer(() -> Observable.just(_games));
         } else
         {
-            return _tickerApi.listGames(maxNum).doOnNext(games -> _games = games);
+            return _tickerApi.listGames(maxNum)
+                    .doOnNext(games -> _games = games);
         }
     }
 
@@ -56,25 +57,53 @@ public class TickerClient
         }
     }
 
+    public Observable<Game> getLatestGame(boolean sync)
+    {
+        if (!sync && _game != null)
+        {
+            return Observable.defer(() -> Observable.just(_game));
+        } else
+        {
+            return loadGames(true)
+                    .filter(games -> !games.isEmpty())
+                    .flatMap(gamesF -> loadGame(gamesF.get(0).getId(), true));
+        }
+    }
+
     public Observable<Game> createGame(Game game)
     {
         return _tickerApi.createGame(game).doOnNext(newGame -> {
             _game = newGame;
-            _games.add(0, newGame);
+            if (_games != null)
+            {
+                _games.add(0, newGame);
+            }
         });
     }
 
-    public Observable<Game> createEntry(Game game, TickerEntry entry)
+    public Observable<Game> createEntry(String gameId, TickerEntry entry)
     {
-        return _tickerApi.createEntry(game.getId(), entry)
-                .flatMap(newEntry -> _tickerApi.getGame(game.getId()))
-                .doOnNext(resultGame -> _game = resultGame);
+        return _tickerApi.createEntry(gameId, entry)
+                .flatMap(newEntry -> _tickerApi.getGame(gameId))
+                .doOnNext(resultGame -> {
+                    this._game = resultGame;
+                    System.out.println("created entry");
+                });
     }
 
-    public Observable<Game> deleteEntry(Game game, String entryID)
+    public Observable<Game> editEntry(String gameId, TickerEntry entry)
     {
-        return _tickerApi.deleteEntry(game.getId(), entryID)
-                .flatMap(message -> _tickerApi.getGame(game.getId()))
+        return _tickerApi.editEntry(gameId, entry.getId(), entry)
+                .flatMap(message -> _tickerApi.getGame(gameId))
+                .doOnNext(resultGame -> {
+                    _game = resultGame;
+                });
+    }
+
+    public Observable<Game> deleteEntry(String gameId, String entryID)
+    {
+        return _tickerApi.deleteEntry(gameId, entryID)
+                .flatMap(message -> _tickerApi.getGame(gameId))
                 .doOnNext(resultGame -> _game = resultGame);
     }
 }

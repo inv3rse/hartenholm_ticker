@@ -12,7 +12,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class TickerPresenter extends RxPresenter<TickerFragment>
 {
-    public static final int UPDATE_CODE = 888;
+    private static final int UPDATE_CODE = 888;
 
     private Game _currentGame;
     private TickerClient _client;
@@ -37,12 +37,16 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
             if (_isLoading)
             {
                 view.setLoading(true);
-            } else if (_currentGame != null)
-            {
-                setGame(_currentGame);
             } else
             {
-                updateCurrentGame();
+                setLoading(true);
+                _client.getLatestGame(false)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::setGame, throwable -> {
+                                    throwable.printStackTrace();
+                                    setLoading(false);
+                                }
+                        );
             }
         }
     }
@@ -52,19 +56,13 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
         if (!_isLoading)
         {
             setLoading(true);
-            if (_currentGame == null)
-            {
-                _client.loadGames(true)
-                        .filter(games -> !games.isEmpty())
-                        .flatMap(allGames -> _client.loadGame(allGames.get(0).getId(), true))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setGame, Throwable::printStackTrace);
-            } else
-            {
-                _client.loadGame(_currentGame.getId(), true)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setGame, Throwable::printStackTrace);
-            }
+            _client.getLatestGame(true)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setGame, throwable -> {
+                                throwable.printStackTrace();
+                                setLoading(false);
+                            }
+                    );
         }
     }
 
@@ -88,7 +86,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
 
     public void removeEntry(String entryId)
     {
-        _client.deleteEntry(_currentGame, entryId)
+        _client.deleteEntry(_currentGame.getId(), entryId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> updateCurrentGame(), Throwable::printStackTrace);
     }

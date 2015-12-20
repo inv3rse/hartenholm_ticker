@@ -41,7 +41,7 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
 
     public PresenterFactory<TickerPresenter> getPresenterFactory()
     {
-        return () -> ((MyApp) getActivity().getApplication()).getPresenterComponent().getTickerPresenter();
+        return () -> ((MyApp) getActivity().getApplication()).getAppComponent().getTickerPresenter();
     }
 
     @Override
@@ -117,15 +117,6 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter>
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        if (requestCode == TickerPresenter.UPDATE_CODE)
-        {
-            getPresenter().updateCurrentGame();
-        }
     }
 
     public void setLoading(boolean loading)

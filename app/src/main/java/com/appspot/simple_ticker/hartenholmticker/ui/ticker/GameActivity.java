@@ -3,14 +3,12 @@ package com.appspot.simple_ticker.hartenholmticker.ui.ticker;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.appspot.simple_ticker.hartenholmticker.MyApp;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.RestClient;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -105,9 +103,11 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
                         Date date = DATE_FORMAT.parse(dateStr);
                         if (!enemy.isEmpty())
                         {
-                            RestClient.getApi().createGame(new Game(enemy, date)).subscribe(
-                                    result -> finish(),
-                                    Throwable::printStackTrace
+                            ((MyApp) getApplication()).getAppComponent().getTickerClient()
+                                    .createGame(new Game(enemy, date))
+                                    .subscribe(
+                                        result -> finish(),
+                                        Throwable::printStackTrace
                             );
                         }
                     } catch (ParseException e)

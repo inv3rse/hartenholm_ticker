@@ -11,6 +11,6 @@ import dagger.Component;
 @Component(modules = {AppModule.class, PresenterModule.class})
 public interface PresenterComponent
 {
-    TickerPresenter getTickerPresenter();
-    NewsPresenter getNewsPresenter();
+//    TickerPresenter getTickerPresenter();
+//    NewsPresenter getNewsPresenter();
 }
