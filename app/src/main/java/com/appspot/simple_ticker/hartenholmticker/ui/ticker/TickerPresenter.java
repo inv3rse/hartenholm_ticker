@@ -88,7 +88,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
     {
         _client.deleteEntry(_currentGame.getId(), entryId)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> updateCurrentGame(), Throwable::printStackTrace);
+                .subscribe(this::setGame, Throwable::printStackTrace);
     }
 
     private void setGame(Game game)
