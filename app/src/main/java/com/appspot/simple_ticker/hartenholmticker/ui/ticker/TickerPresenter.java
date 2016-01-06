@@ -117,6 +117,8 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
         {
             view.setGame(game);
         }
+
+        _currentGame = game;
     }
 
     private void setGameAndList(GameListPair game)
