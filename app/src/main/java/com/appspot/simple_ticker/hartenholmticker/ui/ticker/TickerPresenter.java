@@ -47,7 +47,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
 
                 _client.getLatest(false)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setGameAndList, Throwable::printStackTrace, () -> setLoading(false));
+                        .subscribe(this::setGameAndList, this::loadError, () -> setLoading(false));
             }
         }
     }
@@ -68,7 +68,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
                 setLoading(true);
                 _client.loadGame(_games.get(index).getId(), true)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setGame, Throwable::printStackTrace, () -> setLoading(false));
+                        .subscribe(this::setGame, this::loadError, () -> setLoading(false));
             }
         }
     }
@@ -81,7 +81,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
 
             _client.getLatest(true)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::setGameAndList, Throwable::printStackTrace, () -> setLoading(false));
+                    .subscribe(this::setGameAndList, this::loadError, () -> setLoading(false));
         }
     }
 
@@ -105,9 +105,13 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
 
     public void removeEntry(String entryId)
     {
-        _client.deleteEntry(_currentGame.getId(), entryId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setGame, Throwable::printStackTrace);
+        if (!_isLoading)
+        {
+            setLoading(true);
+            _client.deleteEntry(_currentGame.getId(), entryId)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setGame, this::loadError, ()->setLoading(false));
+        }
     }
 
     private void setGame(Game game)
@@ -145,5 +149,11 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
         {
             view.setLoading(loading);
         }
+    }
+
+    private void loadError(Throwable throwable)
+    {
+        throwable.printStackTrace();
+        setLoading(false);
     }
 }
