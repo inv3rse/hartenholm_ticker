@@ -10,7 +10,7 @@ import retrofit.RestAdapter;
 import rx.Observable;
 
 public class TickerClient {
-    private static final String API_BASE_URL = "http://simple-ticker.appspot.com";
+    private static final String API_BASE_URL = "https://simple-ticker.appspot.com";
 
     private TickerApi _tickerApi;
 
