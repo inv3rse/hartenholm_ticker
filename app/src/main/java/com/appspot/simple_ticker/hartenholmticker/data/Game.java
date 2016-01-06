@@ -55,7 +55,7 @@ public class Game implements Parcelable
         _id = id;
     }
 
-    String getEnemy()
+    public String getEnemy()
     {
         return _enemy;
     }
@@ -65,12 +65,12 @@ public class Game implements Parcelable
         _enemy = enemy;
     }
 
-    String getDateString()
+    public String getDateString()
     {
         return _date;
     }
 
-    Date getDate()
+    public Date getDate()
     {
         try
         {
@@ -129,4 +129,20 @@ public class Game implements Parcelable
             return new Game[size];
         }
     };
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Game game = (Game) o;
+
+        return !(_id != null ? !_id.equals(game._id) : game._id != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return _id != null ? _id.hashCode() : 0;
+    }
 }

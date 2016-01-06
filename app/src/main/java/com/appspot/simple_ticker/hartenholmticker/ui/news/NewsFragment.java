@@ -1,5 +1,7 @@
 package com.appspot.simple_ticker.hartenholmticker.ui.news;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import com.appspot.simple_ticker.hartenholmticker.MyApp;
 import com.appspot.simple_ticker.hartenholmticker.R;
+import com.appspot.simple_ticker.hartenholmticker.ui.general.MainActivity;
 
 import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;

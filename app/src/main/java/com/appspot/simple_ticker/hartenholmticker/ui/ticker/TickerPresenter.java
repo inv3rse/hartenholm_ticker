@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
+import com.appspot.simple_ticker.hartenholmticker.data.GameListPair;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerClient;
+
+import java.util.List;
 
 import nucleus.presenter.RxPresenter;
 import rx.android.schedulers.AndroidSchedulers;
@@ -15,6 +18,7 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
     private static final int UPDATE_CODE = 888;
 
     private Game _currentGame;
+    private List<Game> _games;
     private TickerClient _client;
 
     private boolean _isLoading;
@@ -40,13 +44,31 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
             } else
             {
                 setLoading(true);
-                _client.getLatestGame(false)
+
+                _client.getLatest(false)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setGame, throwable -> {
-                                    throwable.printStackTrace();
-                                    setLoading(false);
-                                }
-                        );
+                        .subscribe(this::setGameAndList, Throwable::printStackTrace, () -> setLoading(false));
+            }
+        }
+    }
+
+    protected void onDropView()
+    {
+        _games = null;
+        _currentGame = null;
+    }
+
+    public void selectGame(int index)
+    {
+        if (!_isLoading)
+        {
+            Game selected = _games.get(index);
+            if (_currentGame == null || !selected.getId().equals(_currentGame.getId()))
+            {
+                setLoading(true);
+                _client.loadGame(_games.get(index).getId(), true)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::setGame, Throwable::printStackTrace, () -> setLoading(false));
             }
         }
     }
@@ -56,13 +78,10 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
         if (!_isLoading)
         {
             setLoading(true);
-            _client.getLatestGame(true)
+
+            _client.getLatest(true)
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::setGame, throwable -> {
-                                throwable.printStackTrace();
-                                setLoading(false);
-                            }
-                    );
+                    .subscribe(this::setGameAndList, Throwable::printStackTrace, () -> setLoading(false));
         }
     }
 
@@ -93,15 +112,27 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
 
     private void setGame(Game game)
     {
-        _currentGame = game;
-
         TickerFragment view = getView();
         if (view != null)
         {
             view.setGame(game);
-            _isLoading = false;
-            view.setLoading(false);
         }
+    }
+
+    private void setGameAndList(GameListPair game)
+    {
+        TickerFragment view = getView();
+        if (view != null)
+        {
+            if (!game.allGames.equals(_games))
+            {
+                view.setGameList(game.allGames, game.getIndex());
+            }
+            view.setGame(game.actualGame);
+        }
+
+        _games = game.allGames;
+        _currentGame = game.actualGame;
     }
 
     private void setLoading(boolean loading)

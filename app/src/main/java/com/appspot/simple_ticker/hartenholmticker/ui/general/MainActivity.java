@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.Spinner;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TableLoader;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TEAM3_FRAGMENT_TAG = "3. Herren";
 
     private Drawer.Result _drawer;
+    private Spinner _spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        _spinner = (Spinner) findViewById(R.id.spinner_nav);
 
         AccountHeader.Result header = new AccountHeader()
                 .withActivity(this)
@@ -143,5 +147,15 @@ public class MainActivity extends AppCompatActivity
             }
         }
         manager.beginTransaction().replace(R.id.container, fragment, fragmentTag).commit();
+    }
+
+    public android.support.v7.app.ActionBar getToolbar()
+    {
+        return getSupportActionBar();
+    }
+
+    public Spinner getSpinner()
+    {
+        return _spinner;
     }
 }

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:///mnt/data/workspace/simple-ticker/HartenholmTicker/HartenholmTicker.iml" filepath="/mnt/data/workspace/simple-ticker/HartenholmTicker/HartenholmTicker.iml" />
-      <module fileurl="file:///mnt/data/workspace/simple-ticker/HartenholmTicker/app/app.iml" filepath="/mnt/data/workspace/simple-ticker/HartenholmTicker/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HartenholmTicker.iml" filepath="$PROJECT_DIR$/HartenholmTicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
