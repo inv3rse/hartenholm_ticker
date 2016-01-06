@@ -97,23 +97,17 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
                 view ->
                 {
                     String enemy = _enemyEdit.getText().toString();
-                    String dateStr = _dateEdit.getText().toString();
-                    try
+                    Date date = _selectedDate.getTime();
+                    if (!enemy.isEmpty())
                     {
-                        Date date = DATE_FORMAT.parse(dateStr);
-                        if (!enemy.isEmpty())
-                        {
-                            ((MyApp) getApplication()).getAppComponent().getTickerClient()
-                                    .createGame(new Game(enemy, date))
-                                    .subscribe(
+                        ((MyApp) getApplication()).getAppComponent().getTickerClient()
+                                .createGame(new Game(enemy, date))
+                                .subscribe(
                                         result -> finish(),
                                         Throwable::printStackTrace
-                            );
-                        }
-                    } catch (ParseException e)
-                    {
-                        e.printStackTrace();
+                                );
                     }
+
                 }
         );
     }
