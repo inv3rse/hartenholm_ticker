@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -82,12 +81,9 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter> {
                     new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> view, View view1, int i, long l) {
-                            if (_ignoreAdapterEvent)
-                            {
+                            if (_ignoreAdapterEvent) {
                                 _ignoreAdapterEvent = false;
-                            }
-                            else
-                            {
+                            } else {
                                 getPresenter().selectGame(i);
                             }
                         }
@@ -104,9 +100,9 @@ public class TickerFragment extends NucleusSupportFragment<TickerPresenter> {
     @Override
     public void onDetach() {
         MainActivity activity = (MainActivity) getActivity();
-        activity.getToolbar().setDisplayShowTitleEnabled(true);
-        activity.getSpinner().setVisibility(View.INVISIBLE);
+        activity.getSpinner().setVisibility(View.GONE);
         activity.getSpinner().setOnItemSelectedListener(null);
+        activity.getToolbar().setDisplayShowTitleEnabled(true);
         super.onDetach();
     }
 
