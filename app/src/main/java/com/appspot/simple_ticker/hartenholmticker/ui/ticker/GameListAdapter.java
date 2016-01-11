@@ -20,6 +20,8 @@ public class GameListAdapter extends ArrayAdapter<Game>
     public GameListAdapter(Context context, List<Game> games)
     {
         super(context, R.layout.game_entry, games);
+        setDropDownViewResource(R.layout.game_entry_dropdown);
+
         _context = context;
         _games = games;
     }
@@ -39,17 +41,23 @@ public class GameListAdapter extends ArrayAdapter<Game>
         Game game = _games.get(position);
 
         View rowView = inflater.inflate(R.layout.game_entry, parent, false);
-        TextView team1 = (TextView) rowView.findViewById(R.id.team1);
-        TextView team2 = (TextView) rowView.findViewById(R.id.team2);
+        TextView text = (TextView) rowView.findViewById(R.id.textView);
 
-        team1.setText("Hartenholm");
-        team2.setText(game.getEnemy());
-
+        text.setText("Hartenholm - " + game.getEnemy());
         return rowView;
     }
 
     public View getDropDownView(int position, View convertView, ViewGroup parent)
     {
-        return getView(position, convertView, parent);
+        LayoutInflater inflater = (LayoutInflater) _context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        Game game = _games.get(position);
+
+        View rowView = inflater.inflate(R.layout.game_entry_dropdown, parent, false);
+        TextView text = (TextView) rowView.findViewById(R.id.textView);
+
+        text.setText("Hartenholm - " + game.getEnemy());
+        return rowView;
     }
 }
