@@ -40,5 +40,5 @@ public interface TickerApi
     Observable<Message> deleteEntry(@Path("game_id") String game_id, @Path("entry_id") String entryId);
 
     @DELETE("/game/{id}")
-    void deleteGame(@Path("id") String id);
+    Observable<Message> deleteGame(@Path("id") String id);
 }

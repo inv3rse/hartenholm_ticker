@@ -85,6 +85,18 @@ public class TickerPresenter extends RxPresenter<TickerFragment>
         }
     }
 
+    public void deleteGame()
+    {
+        if (!_isLoading)
+        {
+            setLoading(true);
+
+            _client.deleteGame(_currentGame)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setGameAndList, this::loadError, () -> setLoading(false));
+        }
+    }
+
     public void createEntry()
     {
         if (_currentGame != null)

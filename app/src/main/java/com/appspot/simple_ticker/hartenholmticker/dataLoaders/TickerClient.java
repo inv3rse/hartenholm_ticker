@@ -69,6 +69,12 @@ public class TickerClient {
         });
     }
 
+    public Observable<GameListPair> deleteGame(Game game) {
+        return _tickerApi.deleteGame(game.getId())
+                .doOnNext(message0 -> {_game = null; _games = null;})
+                .flatMap(message -> getLatest(true));
+    }
+
     public Observable<Game> createEntry(String gameId, TickerEntry entry) {
         return _tickerApi.createEntry(gameId, entry)
                 .flatMap(newEntry -> _tickerApi.getGame(gameId))
