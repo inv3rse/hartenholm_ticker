@@ -16,7 +16,8 @@
     <string name="ticker_entry_edit">bearbeiten</string>
     <string name="ticker_entry_delete">löschen</string>
     <string name="title_activity_game">GameActivity</string>
-    <string name="game_enemy">Gegner</string>
+    <string name="game_team1">Team 1</string>
+    <string name="game_team2">Team 2</string>
     <string name="game_date">Datum</string>
     <string name="game_edit_title">Spiel bearbeiten</string>
     <string name="game_time_placeholder">Uhrzeit</string>

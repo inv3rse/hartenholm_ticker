@@ -27,7 +27,8 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
 
     private static final String KEY_SELECTED_DATE = "KEY_SELECTED_DATE";
 
-    private EditText _enemyEdit;
+    private EditText _team1Edit;
+    private EditText _team2Edit;
     private EditText _dateEdit;
     private EditText _timeEdit;
     private Calendar _selectedDate;
@@ -54,7 +55,8 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
             }
         }
 
-        _enemyEdit = (EditText) findViewById(R.id.game_enemy);
+        _team1Edit = (EditText) findViewById(R.id.game_team1);
+        _team2Edit = (EditText) findViewById(R.id.game_team2);
         _dateEdit = (EditText) findViewById(R.id.game_date);
         _timeEdit = (EditText) findViewById(R.id.game_time);
 
@@ -96,12 +98,13 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
         commit.setOnClickListener(
                 view ->
                 {
-                    String enemy = _enemyEdit.getText().toString();
+                    String team1 = _team1Edit.getText().toString();
+                    String team2 = _team2Edit.getText().toString();
                     Date date = _selectedDate.getTime();
-                    if (!enemy.isEmpty())
+                    if (!team1.isEmpty() && !team2.isEmpty())
                     {
                         ((MyApp) getApplication()).getAppComponent().getTickerClient()
-                                .createGame(new Game(enemy, date))
+                                .createGame(new Game(team1, team2, date))
                                 .subscribe(
                                         result -> finish(),
                                         Throwable::printStackTrace

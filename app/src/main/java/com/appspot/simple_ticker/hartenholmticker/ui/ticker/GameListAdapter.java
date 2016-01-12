@@ -54,7 +54,7 @@ public class GameListAdapter extends ArrayAdapter<Game>
         View rowView = inflater.inflate(layoutRes, parent, false);
         TextView text = (TextView) rowView.findViewById(R.id.textView);
 
-        text.setText("Hartenholm - " + game.getEnemy());
+        text.setText(game.getTeam1() + " - "  + game.getTeam2());
         return rowView;
     }
 }
