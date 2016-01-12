@@ -39,6 +39,27 @@
             android:hint="@string/content_hint"
             android:lines="5"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/selectedIcon"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                />
+
+            <Button
+                android:id="@+id/selectIconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="select icon"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/entry_commit"
             android:layout_width="wrap_content"
