@@ -15,6 +15,7 @@ public class IconChooserDialog extends DialogFragment
     private static final String KEY_SELECTION = "KEY_ICON_SELECTION";
 
     private int _selection = -1;
+    private View _selectedView;
     private GridView _gridView;
 
     public IconChooserDialog()
@@ -36,8 +37,12 @@ public class IconChooserDialog extends DialogFragment
             dismiss();
         });
 
+        ImageAdapter adapter = new ImageAdapter(getContext());
+        adapter.setSelection(_selection, true);
+
         _gridView = (GridView) view.findViewById(R.id.imageGrid);
-        _gridView.setAdapter(new ImageAdapter(getContext()));
+        _gridView.setChoiceMode(GridView.CHOICE_MODE_SINGLE);
+        _gridView.setAdapter(adapter);
         _gridView.setOnItemClickListener((adapterView, view1, position, l) -> setSelection(position));
 
         getDialog().setTitle("Choose Icon");
@@ -56,11 +61,12 @@ public class IconChooserDialog extends DialogFragment
     {
         System.out.println("selected " + position);
 
-        _gridView.setItemChecked(position, _selection != position);
-        if (_selection != -1)
+        if (_gridView != null)
         {
-            _gridView.setItemChecked(_selection, false);
+            ImageAdapter adapter = (ImageAdapter) _gridView.getAdapter();
+            adapter.setSelection(position, _selection != position);
         }
-        _selection = position;
+
+        _selection = (position == _selection)? -1: position;
     }
 }

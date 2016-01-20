@@ -83,6 +83,7 @@ public class TickerEntryActivity extends AppCompatActivity
         setIconBtn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getSupportFragmentManager();
             IconChooserDialog chooserDialog = new IconChooserDialog();
+            chooserDialog.setSelection(_tickerEntry.getIconNumber());
             chooserDialog.show(fragmentManager, "selectIcon");
         });
 

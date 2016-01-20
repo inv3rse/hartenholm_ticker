@@ -5,4 +5,5 @@
     <color name="tabsScrollColor">#8a140e</color>
     <color name="ColorAltPrimary">#2196f3</color>
 
+    <color name="highlight">#ffff00</color>
 </resources>

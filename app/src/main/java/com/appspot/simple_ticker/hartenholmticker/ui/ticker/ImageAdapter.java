@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.appspot.simple_ticker.hartenholmticker.R;
@@ -12,6 +11,7 @@ import com.appspot.simple_ticker.hartenholmticker.R;
 class ImageAdapter extends BaseAdapter
 {
     private Context _context;
+    private int _selected = -1;
 
     public ImageAdapter(Context context)
     {
@@ -51,7 +51,30 @@ class ImageAdapter extends BaseAdapter
         }
 
         imageView.setImageResource(images[position]);
+
+        if (position == _selected)
+        {
+            imageView.setBackgroundResource(R.color.highlight);
+        }
+        else
+        {
+            imageView.setBackgroundResource(android.R.color.transparent);
+        }
+
         return imageView;
+    }
+
+    public void setSelection(int pos, boolean selected)
+    {
+        if (selected)
+        {
+            _selected = pos;
+        }
+        else
+        {
+            _selected = -1;
+        }
+        notifyDataSetChanged();
     }
 
     public static final Integer[] images =
