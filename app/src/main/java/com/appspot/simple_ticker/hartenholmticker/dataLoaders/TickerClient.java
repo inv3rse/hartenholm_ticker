@@ -6,9 +6,9 @@ import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
 
 import java.util.List;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Retrofit;
+import retrofit2.RxJavaCallAdapterFactory;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
