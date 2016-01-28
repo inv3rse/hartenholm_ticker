@@ -6,11 +6,14 @@ import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
 
 import java.util.List;
 
-import retrofit.RestAdapter;
+import retrofit.GsonConverterFactory;
+import retrofit.Retrofit;
+import retrofit.RxJavaCallAdapterFactory;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 public class TickerClient {
-    private static final String API_BASE_URL = "https://simple-ticker.appspot.com";
+    private static final String API_BASE_URL = "https://simple-ticker.appspot.com/";
 
     private TickerApi _tickerApi;
 
@@ -18,11 +21,12 @@ public class TickerClient {
     private Game _game;  // last loaded game (with entries)
 
     public TickerClient() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint(API_BASE_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-        _tickerApi = restAdapter.create(TickerApi.class);
+        _tickerApi = retrofit.create(TickerApi.class);
 
         _games = null;
         _game = null;
@@ -37,6 +41,7 @@ public class TickerClient {
             return Observable.defer(() -> Observable.just(_games));
         } else {
             return _tickerApi.listGames(maxNum)
+                    .subscribeOn(Schedulers.io())
                     .doOnNext(games -> _games = games);
         }
     }
@@ -45,7 +50,9 @@ public class TickerClient {
         if (!sync && _game != null && id.equals(_game.getId())) {
             return Observable.defer(() -> Observable.just(_game));
         } else {
-            return _tickerApi.getGame(id).doOnNext(game -> _game = game);
+            return _tickerApi.getGame(id)
+                    .subscribeOn(Schedulers.io())
+                    .doOnNext(game -> _game = game);
         }
     }
 
@@ -61,40 +68,41 @@ public class TickerClient {
     }
 
     public Observable<Game> createGame(Game game) {
-        return _tickerApi.createGame(game).doOnNext(newGame -> {
-            _game = newGame;
-            if (_games != null) {
-                _games.add(0, newGame);
-            }
-        });
+        return _tickerApi.createGame(game)
+                .subscribeOn(Schedulers.io())
+                .doOnNext(newGame -> {
+                    _game = newGame;
+                    if (_games != null) {
+                        _games.add(0, newGame);
+                    }
+                });
     }
 
     public Observable<GameListPair> deleteGame(Game game) {
         return _tickerApi.deleteGame(game.getId())
-                .doOnNext(message0 -> {_game = null; _games = null;})
+                .subscribeOn(Schedulers.io())
+                .doOnNext(message0 -> {
+                    _game = null;
+                    _games = null;
+                })
                 .flatMap(message -> getLatest(true));
     }
 
     public Observable<Game> createEntry(String gameId, TickerEntry entry) {
         return _tickerApi.createEntry(gameId, entry)
-                .flatMap(newEntry -> _tickerApi.getGame(gameId))
-                .doOnNext(resultGame -> {
-                    this._game = resultGame;
-                    System.out.println("created entry");
-                });
+                .subscribeOn(Schedulers.io())
+                .flatMap(newEntry -> loadGame(gameId, true));
     }
 
     public Observable<Game> editEntry(String gameId, TickerEntry entry) {
         return _tickerApi.editEntry(gameId, entry.getId(), entry)
-                .flatMap(message -> _tickerApi.getGame(gameId))
-                .doOnNext(resultGame -> {
-                    _game = resultGame;
-                });
+                .subscribeOn(Schedulers.io())
+                .flatMap(message -> loadGame(gameId, true));
     }
 
     public Observable<Game> deleteEntry(String gameId, String entryID) {
         return _tickerApi.deleteEntry(gameId, entryID)
-                .flatMap(message -> _tickerApi.getGame(gameId))
-                .doOnNext(resultGame -> _game = resultGame);
+                .subscribeOn(Schedulers.io())
+                .flatMap(message -> loadGame(gameId, true));
     }
 }
