@@ -9,10 +9,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.appspot.simple_ticker.hartenholmticker.MyApp;
+import com.appspot.simple_ticker.hartenholmticker.base.App;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerClient;
+import com.appspot.simple_ticker.hartenholmticker.base.network.TickerClient;
 
 import java.util.Date;
 
@@ -77,7 +77,7 @@ public class TickerEntryActivity extends AppCompatActivity
         }
         _contentEdit.setText(_tickerEntry.getContent());
 
-        _client = ((MyApp) getApplication()).getAppComponent().getTickerClient();
+        _client = App.component().getTickerClient();
 
         Button setIconBtn = (Button) findViewById(R.id.selectIconButton);
         setIconBtn.setOnClickListener(view -> {

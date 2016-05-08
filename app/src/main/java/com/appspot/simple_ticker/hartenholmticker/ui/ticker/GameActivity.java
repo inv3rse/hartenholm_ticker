@@ -6,7 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.appspot.simple_ticker.hartenholmticker.MyApp;
+import com.appspot.simple_ticker.hartenholmticker.base.App;
 import com.appspot.simple_ticker.hartenholmticker.R;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -103,7 +103,7 @@ public class GameActivity extends AppCompatActivity implements DatePickerDialog.
                     Date date = _selectedDate.getTime();
                     if (!team1.isEmpty() && !team2.isEmpty())
                     {
-                        ((MyApp) getApplication()).getAppComponent().getTickerClient()
+                        App.component().getTickerClient()
                                 .createGame(new Game(team1, team2, date))
                                 .subscribe(
                                         result -> finish(),

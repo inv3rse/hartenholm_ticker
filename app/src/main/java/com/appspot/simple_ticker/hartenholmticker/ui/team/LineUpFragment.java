@@ -20,17 +20,14 @@ import java.util.List;
 
 import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter;
 import dev.dworks.libs.astickyheader.SimpleSectionedGridAdapter.Section;
-import nucleus.factory.PresenterFactory;
-import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
-@RequiresPresenter(LineUpPresenter.class)
-public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter>
-{
+public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter> {
     private static final String ARG_TEAM_ID = "TEAM_ID";
+    private String _teamID;
+    private GridView _gridView;
 
-    static public LineUpFragment create(String websiteId)
-    {
+    static public LineUpFragment create(String websiteId) {
         LineUpFragment fragment = new LineUpFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TEAM_ID, websiteId);
@@ -38,26 +35,16 @@ public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter>
         return fragment;
     }
 
-    private String _teamID;
-    private GridView _gridView;
-
     @Override
-    public PresenterFactory<LineUpPresenter> getPresenterFactory()
-    {
-        return () -> new LineUpPresenter(_teamID, "2014/15");
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
-        _teamID = getArguments().getString(ARG_TEAM_ID);
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _teamID = getArguments().getString(ARG_TEAM_ID);
+
+        setPresenterFactory(() -> new LineUpPresenter(_teamID, "2014/15"));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_line_up, container, false);
 
@@ -68,19 +55,17 @@ public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter>
 
     /**
      * Display players
+     *
      * @param players List of players sorted by position
      */
-    public void onItemsNext(List<Player> players)
-    {
+    public void onItemsNext(List<Player> players) {
         // get indexes for headers (positions)
         ArrayList<Section> sections = new ArrayList<>();
 
         String currPos = null;
 
-        for (int i = 0; i < players.size(); i++)
-        {
-            if (currPos == null || !players.get(i).getPosition().equals(currPos))
-            {
+        for (int i = 0; i < players.size(); i++) {
+            if (currPos == null || !players.get(i).getPosition().equals(currPos)) {
                 sections.add(new Section(i, players.get(i).getPosition()));
                 currPos = players.get(i).getPosition();
             }
@@ -91,12 +76,7 @@ public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter>
         sections.toArray(sectionsArray);
 
         // put them into the grid
-        SimpleSectionedGridAdapter gridAdapter = new SimpleSectionedGridAdapter(
-                getActivity(),
-                new PlayerAdapter(getActivity(), players),
-                R.layout.position_header,
-                R.id.position_header_layout,
-                R.id.position_header);
+        SimpleSectionedGridAdapter gridAdapter = new SimpleSectionedGridAdapter(getActivity(), new PlayerAdapter(getActivity(), players), R.layout.position_header, R.id.position_header_layout, R.id.position_header);
 
         gridAdapter.setGridView(_gridView);
         gridAdapter.setSections(sectionsArray);
@@ -104,45 +84,38 @@ public class LineUpFragment extends NucleusSupportFragment<LineUpPresenter>
         _gridView.setAdapter(gridAdapter);
     }
 
-    public void onItemsError(Throwable throwable)
-    {
+    public void onItemsError(Throwable throwable) {
         Toast.makeText(getActivity(), throwable.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private class PlayerAdapter extends BaseAdapter
-    {
+    private class PlayerAdapter extends BaseAdapter {
         private Context _context;
         private LayoutInflater _inflater;
         private List<Player> _players;
 
-        public PlayerAdapter(Context context, List<Player> players)
-        {
+        public PlayerAdapter(Context context, List<Player> players) {
             _context = context;
             _inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             _players = players;
         }
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             return _players.size();
         }
 
         @Override
-        public Object getItem(int i)
-        {
+        public Object getItem(int i) {
             return _players.get(i);
         }
 
         @Override
-        public long getItemId(int i)
-        {
+        public long getItemId(int i) {
             return i;
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup group)
-        {
+        public View getView(int i, View view, ViewGroup group) {
             View player = _inflater.inflate(R.layout.player_view, group, false);
 
             ImageView image = (ImageView) player.findViewById(R.id.player_image);

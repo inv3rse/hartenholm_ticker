@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'  // Retrolambda
-apply plugin: 'com.neenbedankt.android-apt'  // Dagger 2
+apply plugin: 'com.neenbedankt.android-apt'  // Dagger 2, Butter Knife
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,12 +28,46 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
 
-    compile('com.mikepenz:materialdrawer:2.9.8@aar') {
+    // Support Library
+    def support_library_version = '23.3.0'
+    compile "com.android.support:appcompat-v7:$support_library_version"
+    compile "com.android.support:recyclerview-v7:$support_library_version"
+    compile "com.android.support:cardview-v7:$support_library_version"
+    compile "com.android.support:design:$support_library_version"
+
+    // Nucleus
+    def nucleus_version = '3.0.0'
+    compile "info.android15.nucleus:nucleus:$nucleus_version"
+    compile "info.android15.nucleus:nucleus-support-v4:$nucleus_version"
+
+    // RxJava
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxandroid:1.0.1'
+
+    // Retrofit
+    def retrofit_version = "2.0.2"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+
+    // Dagger 2
+    def dagger_version = '2.4'
+    compile "com.google.dagger:dagger:$dagger_version";
+    apt "com.google.dagger:dagger-compiler:$dagger_version"
+    compile "javax.annotation:javax.annotation-api:1.2" // pick up generated classes
+
+    // Butter Knife
+    def butterknife_version = '8.0.1'
+    compile "com.jakewharton:butterknife:$butterknife_version"
+    apt "com.jakewharton:butterknife-compiler:$butterknife_version"
+
+    // Icepick
+    def icepick_version = '3.2.0'
+    compile "frankiesardo:icepick:$icepick_version"
+    provided "frankiesardo:icepick-processor:$icepick_version"
+
+    compile('com.mikepenz:materialdrawer:5.2.2@aar') {
         transitive = true
     }
 
@@ -41,24 +75,8 @@ dependencies {
     compile 'dev.dworks.libs:astickyheader:0.1.0'
     compile 'com.wdullaer:materialdatetimepicker:1.3.0'
 
-    compile "frankiesardo:icepick:3.0.2"
-    provided "frankiesardo:icepick-processor:3.0.2"
-    compile 'info.android15.nucleus:nucleus:1.3.0'
-    compile 'info.android15.nucleus:nucleus-support-v4:1.3.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'org.jsoup:jsoup:1.8.2'
-
-    compile 'io.reactivex:rxandroid:1.0.1'
-
-    // Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3'
-
-    // Dependency Injection (Dagger 2)
-    compile 'com.google.dagger:dagger:2.0'
-    apt 'com.google.dagger:dagger-compiler:2.0'
-    provided 'org.glassfish:javax.annotation:10.0-b28'
+    compile 'org.jsoup:jsoup:1.9.1'
 
     // Junit Tests
     testCompile 'junit:junit:4.12'

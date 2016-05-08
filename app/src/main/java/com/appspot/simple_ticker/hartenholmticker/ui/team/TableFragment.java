@@ -15,7 +15,6 @@ import nucleus.factory.PresenterFactory;
 import nucleus.factory.RequiresPresenter;
 import nucleus.view.NucleusSupportFragment;
 
-@RequiresPresenter(TablePresenter.class)
 public class TableFragment extends NucleusSupportFragment<TablePresenter>
 {
     private static final String ARG_TEAM_ID = "ARG_TEAM_ID";
@@ -39,18 +38,10 @@ public class TableFragment extends NucleusSupportFragment<TablePresenter>
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        _teamId = getArguments().getString(ARG_TEAM_ID);
         super.onCreate(savedInstanceState);
-    }
+        _teamId = getArguments().getString(ARG_TEAM_ID);
 
-    /**
-     * Create a Presenter with a specified teamID
-     * @return Factory to create a presenter for a specified team (data source)
-     */
-    @Override
-    public PresenterFactory<TablePresenter> getPresenterFactory()
-    {
-        return () -> new TablePresenter(_teamId);
+        setPresenterFactory(() -> new TablePresenter(_teamId));
     }
 
     @Override

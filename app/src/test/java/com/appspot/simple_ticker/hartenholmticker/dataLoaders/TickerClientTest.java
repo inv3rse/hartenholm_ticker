@@ -1,5 +1,7 @@
 package com.appspot.simple_ticker.hartenholmticker.dataLoaders;
 
+import com.appspot.simple_ticker.hartenholmticker.base.network.TickerApiBuilder;
+import com.appspot.simple_ticker.hartenholmticker.base.network.TickerClient;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 
 import junit.framework.TestCase;
@@ -10,7 +12,6 @@ import java.util.List;
 
 import rx.observers.TestSubscriber;
 
-
 public class TickerClientTest extends TestCase
 {
     private TickerClient _client;
@@ -18,7 +19,7 @@ public class TickerClientTest extends TestCase
     @Before
     public void setUp()
     {
-        _client = new TickerClient();
+        _client = new TickerClient(TickerApiBuilder.buildTickerApi());
     }
 
     public void testLoadGames() throws Exception
@@ -33,6 +34,6 @@ public class TickerClientTest extends TestCase
 
     public void testLoadGame() throws Exception
     {
-        assertEquals(1,1);
+        assertEquals(1, 1);
     }
 }

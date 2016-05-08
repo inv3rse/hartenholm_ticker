@@ -6,7 +6,7 @@ import android.util.Log;
 import com.appspot.simple_ticker.hartenholmticker.data.Game;
 import com.appspot.simple_ticker.hartenholmticker.data.GameListPair;
 import com.appspot.simple_ticker.hartenholmticker.data.TickerEntry;
-import com.appspot.simple_ticker.hartenholmticker.dataLoaders.TickerClient;
+import com.appspot.simple_ticker.hartenholmticker.base.network.TickerClient;
 
 import java.util.List;
 
